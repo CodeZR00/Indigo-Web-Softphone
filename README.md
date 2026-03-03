@@ -17,13 +17,13 @@ A TwiML App configured for Voice
 Twilio Functions & Assets enabled
 
 Required Twilio Functions
-/token Function     (Token file is included in Twilio Fucntion Code)
+/token Function     (Token file is included in Twilio Fucntion settings)
 
 Create a Twilio Function named /token. This function is responsible for generating a short-lived Access Token used by the browser client to authenticate with Twilio Voice. It should create a VoiceGrant using your TwiML App SID and return the JWT in JSON format. The softphone automatically requests this endpoint during initialization and again when the token is about to expire.
 
 This function enables secure client authentication without exposing credentials in the frontend.
 
-/voice Function       (Voice file is included in Twilio Fucntion Code)
+/voice Function       (Voice file is included in Twilio Fucntion settings)
 
 Create a Twilio Function named /voice. This function handles call routing logic for the softphone. It should inspect the To parameter and decide whether the call is:
 
