@@ -1,0 +1,46 @@
+exports.handler = async function(context, event, callback) {
+  // Handle CORS preflight FIRST
+  const response = new Twilio.Response();
+
+  response.appendHeader('Access-Control-Allow-Origin', '*');
+  response.appendHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  response.appendHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // If preflight request, return immediately
+  if (event.request && event.request.method === 'OPTIONS') {
+    response.setStatusCode(204);
+    return callback(null, response);
+  }
+
+  try {
+    const AccessToken = Twilio.jwt.AccessToken;
+    const VoiceGrant = AccessToken.VoiceGrant;
+
+    const identity = event.identity || 'agent_1001';
+
+    const token = new AccessToken(
+      context.ACCOUNT_SID,
+      context.API_KEY,
+      context.API_SECRET,
+      { identity: identity, ttl: 3600 }
+    );
+
+    const voiceGrant = new VoiceGrant({
+      outgoingApplicationSid: context.TWIML_APP_SID,
+      incomingAllow: true,
+    });
+
+    token.addGrant(voiceGrant);
+
+    response.appendHeader('Content-Type', 'application/json');
+    response.setBody({ token: token.toJwt() });
+
+    return callback(null, response);
+
+  } catch (err) {
+    console.error('TOKEN ERROR:', err);
+    response.setStatusCode(500);
+    response.setBody({ error: err.message });
+    return callback(null, response);
+  }
+};

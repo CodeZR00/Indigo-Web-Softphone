@@ -1,0 +1,39 @@
+exports.handler = function(context, event, callback) {
+  const twiml = new Twilio.twiml.VoiceResponse();
+
+  const to = (event.To || '').trim();
+
+  console.log("VOICE DEBUG →", {
+    To: to,
+    From: event.From,
+    Direction: event.Direction
+  });
+
+  const dial = twiml.dial({
+    callerId: context.CALLER_ID,
+    answerOnBridge: true
+  });
+
+  // ======================================================
+  // 1. Client → Client
+  // ======================================================
+  if (to && to.startsWith("client:")) {
+    dial.client(to.replace("client:", ""));
+  }
+
+  // ======================================================
+  // 2. Outbound PSTN (softphone → phone)
+  // ======================================================
+  else if (to && /^\+?[1-9]\d{6,14}$/.test(to)) {
+    dial.number(to);
+  }
+
+  // ======================================================
+  // 3. Inbound PSTN → your agent
+  // ======================================================
+  else {
+    dial.client("agent_1001");
+  }
+
+  return callback(null, twiml);
+};
