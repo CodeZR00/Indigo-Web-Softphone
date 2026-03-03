@@ -1,0 +1,424 @@
+/* ================================
+   Base Reset
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #e5e7eb 0%, #1f2937 100%);
+  min-height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================================
+   Layout
+================================ */
+.container {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.dialer-panel {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.card {
+  background: rgba(31, 41, 55, 0.92);
+  color: #f3f4f6;
+  backdrop-filter: blur(10px);
+
+  /* 🔹 subtle shape refinement */
+  border-radius: 14px;
+
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ================================
+   Headings
+================================ */
+h2 {
+  color: #f3f4f6;
+  margin-bottom: 22px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 i {
+  color: #2563eb;
+}
+
+/* ================================
+   Input group
+================================ */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#phoneNumber {
+  flex: 1;
+  padding: 14px 16px;
+  border: 2px solid #d1d5db;
+
+  /* 🔹 slightly softer */
+  border-radius: 10px;
+
+  font-size: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#phoneNumber:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* ================================
+   Buttons
+================================ */
+.btn {
+  padding: 11px 20px;
+  border: none;
+
+  /* 🔹 refined shape */
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(20%);
+  box-shadow: none !important;
+}
+
+/* icon circle */
+.btn.icon-only {
+  padding: 11px;
+  border-radius: 10px; /* 🔹 was circle — now softer square */
+  aspect-ratio: 1/1;
+}
+
+/* ================================
+   Primary button
+================================ */
+.btn.primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ================================
+   Secondary button
+================================ */
+.btn.secondary {
+  background: #dc2626;
+  color: white;
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background: #b91c1c;
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn.small {
+  padding: 7px 14px;
+  font-size: 13px;
+}
+
+/* ================================
+   Dial pad
+================================ */
+.dialpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.dialpad-btn {
+  background: #e5e7eb;
+  border: 1px solid #cbd5e1;
+
+  /* 🔹 slightly less pill */
+  border-radius: 16px;
+
+  font-size: 21px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  transition: all 0.12s ease;
+
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+}
+
+/* ================================
+   Dialpad hover / active
+================================ */
+.dialpad-btn:hover {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, .35);
+}
+
+.dialpad-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+
+/* ================================
+   Dialpad actions
+================================ */
+.dialpad-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+
+/* ================================
+   Call buttons
+================================ */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.action-buttons .btn {
+  flex: 1;
+}
+
+/* ================================
+   Status box
+================================ */
+.status {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: #f1f5f9;
+
+  /* 🔹 refined shape */
+  border-radius: 10px;
+
+  font-size: 14px;
+  color: #0f172a;
+  border-left: 4px solid #2563eb;
+  font-weight: 600;
+}
+
+/* state colors */
+.status.ready { border-left-color: #16a34a; }
+.status.calling { border-left-color: #f59e0b; }
+.status.incall { border-left-color: #16a34a; }
+.status.error { border-left-color: #dc2626; }
+
+.status.incall {
+  box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.25);
+}
+
+/* ================================
+   In-call tools
+================================ */
+.incall-tools {
+  margin-top: 14px;
+}
+
+.incall-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.incall-buttons .btn {
+  flex: 1;
+}
+
+.btn.active {
+  background: #16a34a !important;
+  color: white;
+}
+
+/* call timer */
+.call-timer {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #16a34a;
+  letter-spacing: 1px;
+}
+
+/* ================================
+   Incoming popup
+================================ */
+.incoming-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.incoming-box {
+  background: #1f2937;
+  padding: 26px 24px;
+
+  /* 🔹 refined */
+  border-radius: 14px;
+
+  text-align: center;
+  color: white;
+  min-width: 260px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+.incoming-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.incoming-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.incoming-actions .btn {
+  flex: 1;
+}
+
+/* ================================
+   Modal
+================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #2f343a;
+  padding: 22px;
+
+  /* 🔹 softer */
+  border-radius: 14px;
+
+  width: 320px;
+  color: white;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+.modal-content input {
+  width: 100%;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid #4b5563;
+  background: #111827;
+  color: white;
+}
+
+/* ================================
+   Dialpad incall hint
+================================ */
+.dialpad.incall-mode .dialpad-btn {
+  border-color: #16a34a;
+}
+
+/* ================================
+   Responsive
+================================ */
+@media (max-width: 480px) {
+  .card {
+    padding: 20px;
+  }
+
+  .dialpad-btn {
+    font-size: 20px;
+    height: 54px;
+  }
+}
+
+/* ================================
+   Softphone compact mode
+================================ */
+@media (max-height: 720px) {
+  .card {
+    padding: 16px;
+  }
+
+  h2 {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  .dialpad-btn {
+    font-size: 19px;
+    height: 52px;
+  }
+
+  .call-timer {
+    font-size: 16px;
+  }
+}

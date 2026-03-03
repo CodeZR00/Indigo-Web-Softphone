@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebRTC Softphone</title>
+
+<meta http-equiv="Content-Security-Policy"
+content="
+default-src 'self';
+script-src 'self' 'unsafe-eval' https://cdnjs.cloudflare.com;
+style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+img-src 'self' data: blob:;
+font-src 'self' https://cdnjs.cloudflare.com data:;
+connect-src
+  'self'
+  https://*.twilio.com
+  https://*.twil.io
+  https://voice-js.twilio.com
+  https://eventgw.twilio.com
+  wss://*.twilio.com
+  wss://voice-js.twilio.com
+  wss://eventgw.twilio.com;
+">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- IMPORTANT: self-hosted Twilio SDK -->
+  <script src="./twilio.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="dialer-panel">
+    <div class="card">
+
+      <h2 style="display:flex;justify-content:space-between;align-items:center;">
+	  <span><i class="fas fa-phone-alt"></i> Softphone</span>
+	  <button id="settingsBtn" class="btn icon-only" title="Settings">
+	    <i class="fas fa-cog"></i>
+	  </button>
+      </h2>
+
+      <!-- Number input -->
+      <div class="input-group">
+        <input
+  	  type="tel"
+  	  inputmode="numeric"
+  	  id="phoneNumber"
+  	  placeholder="Enter phone number..."
+  	  autocomplete="off">
+        
+        <button id="clearBtn" class="btn icon-only" title="Clear">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Dial pad (SMART: number OR DTMF) -->
+      <div class="dialpad" id="dialpad">
+        <button class="dialpad-btn" data-digit="1">1</button>
+        <button class="dialpad-btn" data-digit="2">2</button>
+        <button class="dialpad-btn" data-digit="3">3</button>
+        <button class="dialpad-btn" data-digit="4">4</button>
+        <button class="dialpad-btn" data-digit="5">5</button>
+        <button class="dialpad-btn" data-digit="6">6</button>
+        <button class="dialpad-btn" data-digit="7">7</button>
+        <button class="dialpad-btn" data-digit="8">8</button>
+        <button class="dialpad-btn" data-digit="9">9</button>
+        <button class="dialpad-btn" data-digit="*">*</button>
+        <button class="dialpad-btn" data-digit="0">0</button>
+        <button class="dialpad-btn" data-digit="#">#</button>
+      </div>
+
+      <!-- Backspace -->
+      <div class="dialpad-actions">
+        <button id="backspaceBtn" class="btn secondary small">
+          <i class="fas fa-backspace"></i> Backspace
+        </button>
+      </div>
+
+      <!-- Call controls -->
+      <div class="action-buttons">
+        <button id="callBtn" class="btn primary" disabled>
+          <i class="fas fa-phone"></i> Call
+        </button>
+        <button id="hangupBtn" class="btn secondary" disabled>
+          <i class="fas fa-phone-slash"></i> Hang Up
+        </button>
+      </div>
+
+	<!-- In-call tools -->
+	<div class="incall-tools" id="incallTools" style="display:none;">
+
+	  <div class="incall-buttons">
+	    <button id="muteBtn" class="btn small">
+	      <i class="fas fa-microphone-slash"></i> Mute
+	    </button>
+
+	    <button id="holdBtn" class="btn small">
+	      <i class="fas fa-pause"></i> Hold
+	    </button>
+	  </div>
+
+	  <div class="call-timer" id="callTimer">00:00</div>
+
+	</div>
+      <!-- Status -->
+      <div class="status boot" id="callStatus">Initializing…</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Incoming call popup -->
+<div id="incomingPopup" class="incoming-popup" style="display:none;">
+  <div class="incoming-box">
+    <div class="incoming-title">
+      <i class="fas fa-phone"></i> Incoming Call
+    </div>
+
+    <div class="incoming-actions">
+      <button id="acceptBtn" class="btn primary">
+        <i class="fas fa-phone"></i> Accept
+      </button>
+      <button id="rejectBtn" class="btn secondary">
+        <i class="fas fa-phone-slash"></i> Reject
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Twilio Settings</h3>
+
+    <label>Token URL</label>
+    <input id="tokenUrlInput" type="text"
+           placeholder="https://your-domain/token">
+
+    <label>Agent Identity</label>
+    <input id="identityInput" type="text"
+           placeholder="agent_1001">
+
+    <div style="margin-top:15px; display:flex; gap:10px;">
+      <button id="saveSettingsBtn" class="btn primary">Save</button>
+      <button id="closeSettingsBtn" class="btn secondary">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- App logic (must be last) -->
+<script src="app.js"></script>
+
+</body>
+</html>
